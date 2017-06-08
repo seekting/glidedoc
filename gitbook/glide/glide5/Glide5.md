@@ -747,16 +747,15 @@ private Resource<T> loadFromCache(Key key) throws IOException {
 
 如果读取缓存失败，则会走onLoadFailed,然后把stage变成Source，再通过Source线程池去重新走一次EngineRunnable
 
-
 ```java
- private void onLoadFailed(Exception e) {
+private void onLoadFailed(Exception e) {
         if (isDecodingFromCache()) {
             stage = Stage.SOURCE;
             manager.submitForSource(this);
         } else {
             manager.onException(e);
         }
-    }
+}
 
 ```
 
