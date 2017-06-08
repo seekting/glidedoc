@@ -1,0 +1,16 @@
+@startuml
+interface LoadProvider{
+ResourceDecoder<File, Z> getCacheDecoder();
+ResourceDecoder<T, Z> getSourceDecoder();
+Encoder<T> getSourceEncoder();
+ResourceEncoder<Z> getEncoder();
+
+}
+
+interface DataLoadProvider{
+ModelLoader<A, T> getModelLoader();
+ResourceTranscoder<Z, R> getTranscoder();
+}
+
+LoadProvider <|-- DataLoadProvider
+@enduml
