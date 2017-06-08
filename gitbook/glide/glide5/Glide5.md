@@ -724,6 +724,7 @@ EngineRunnable有两个过程：Stage.CACHE,Stage.SOURCE
 loadFromCache则是把file转成Resource
 
 > 注：loadFromCache用的是cacheDecoder
+
 ```java
 private Resource<T> loadFromCache(Key key) throws IOException {
         File cacheFile = diskCacheProvider.getDiskCache().get(key);
