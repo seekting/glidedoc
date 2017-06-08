@@ -1,7 +1,7 @@
 {
   "title": "Glide源码解析",
   "description": "Glide源码解析",
-  "language": "zh",
+  "language": "zh-hans",
   "plugins": [
     "prism",
     "yahei",
@@ -13,20 +13,20 @@
     "fontSettings": {
       "theme": "sepia",
       "family": "Courier New",
-      "size": 1
+      "size": 2
     }
 
   },
   "pdf": {
     "pageNumbers": true,
-    "fontSize": 6,
+    "fontSize": 8,
     "fontFamily": "Arial",
     "paperSize": "a4",
     "margin": {
-      "right": 30,
-      "left": 30,
-      "top": 50,
-      "bottom": 50
+      "right": 20,
+      "left": 20,
+      "top": 30,
+      "bottom": 30
     }
   }
 }
