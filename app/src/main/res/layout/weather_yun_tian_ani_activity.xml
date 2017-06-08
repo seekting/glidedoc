@@ -1,0 +1,28 @@
+<com.seekting.demo2016.view.TestScrollView
+    android:id="@+id/scroll_view"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/darker_gray"
+    >
+
+    <com.seekting.demo2016.view.TestLinearLayout
+        android:id="@+id/test_linearlayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        >
+
+        <com.seekting.demo2016.view.OvercastAniView
+            android:id="@+id/overcast_ani_view"
+            android:layout_width="match_parent"
+            android:layout_height="400dp"
+            />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="400dp"
+            />
+
+    </com.seekting.demo2016.view.TestLinearLayout>
+</com.seekting.demo2016.view.TestScrollView>

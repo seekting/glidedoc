@@ -1,0 +1,15 @@
+apply plugin: 'java'
+//apply plugin: 'checkstyle'
+
+repositories {
+    jcenter()
+}
+
+//checkstyle {
+//    configFile = new File(projectDir, 'checkstyle.xml')
+//}
+
+dependencies {
+}
+targetCompatibility = '1.7'
+sourceCompatibility = '1.7'

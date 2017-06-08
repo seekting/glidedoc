@@ -1,0 +1,63 @@
+@startuml
+
+'abstract class AbstractList
+'abstract AbstractCollection
+'interface List
+'interface Collection
+'
+'List <|-- AbstractList
+'Collection <|-- AbstractCollection
+'
+'Collection <|- List
+'AbstractCollection <|- AbstractList
+'AbstractList <|-- ArrayList
+'
+'class ArrayList {
+'Object[] elementData
+'size()
+'}
+'
+'enum TimeUnit {
+'DAYS
+'HOURS
+'MINUTES
+'}
+
+interface LifecycleListener{
+    void onStart();
+    void onStop();
+    void onDestroy();
+}
+interface Lifecycle{
+void addListener(LifecycleListener listener);
+}
+class ApplicationLifecycle{
+}
+class RequestManager{
+Lifecycle lifecycle
+RequestManager(Lifecycle lifecycle)
+
+}
+class ActivityFragmentLifecycle{
+  void onStart();
+  void onStop();
+  void onDestroy();
+
+}
+class Fragment
+class RequestManagerFragment{
+ActivityFragmentLifecycle lifecycle
+}
+
+
+LifecycleListener<|-- RequestManager
+Lifecycle<|-- ApplicationLifecycle
+Lifecycle<|-- ActivityFragmentLifecycle
+Fragment<|-- RequestManagerFragment
+
+
+
+
+
+
+@enduml

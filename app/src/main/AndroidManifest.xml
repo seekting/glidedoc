@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest package="com.seekting.demo2016"
+          xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <application
+        android:name=".App"
+        android:allowBackup="true"
+        android:hardwareAccelerated="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <meta-data
+            android:name="com.seekting.demo2016.MyGlideModule"
+            android:value="GlideModule"
+            />
+
+        <activity android:name=".activity.MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".activity.JbTestBase"
+            android:exported="true"/>
+
+        <activity android:name=".activity.InstantAppActivity"/>
+        <activity android:name=".activity.GlideActivity"/>
+        <activity android:name=".activity.ArrowAniActivity"/>
+        <activity android:name=".activity.EvaluatorActivity"/>
+        <activity android:name=".activity.SeektingActivity"/>
+        <activity android:name=".activity.NDKActivity"/>
+        <activity
+            android:name=".activity.FullActivity"
+            android:screenOrientation="landscape"
+            />
+        <activity android:name=".activity.XUtilActivity"/>
+        <activity android:name=".activity.IntentServiceActivity"/>
+        <activity android:name=".activity.DayNightActivity"/>
+        <activity android:name=".activity.FCMActivity"/>
+        <activity android:name=".activity.WeatherYunTianAniActivity"/>
+        <activity android:name=".activity.TimeZoneActivity"/>
+
+
+        <receiver
+            android:name="com.google.android.gms.gcm.GcmReceiver"
+            android:exported="true"
+            android:permission="com.google.android.c2dm.permission.SEND">
+            <intent-filter>
+                <action android:name="com.google.android.c2dm.intent.RECEIVE"/>
+                <category android:name="com.example.gcm"/>
+            </intent-filter>
+        </receiver>
+
+        <service
+            android:name=".service.MyGcmListenerService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.android.c2dm.intent.RECEIVE"/>
+            </intent-filter>
+        </service>
+        <service
+            android:name=".service.TIntentService"
+            android:exported="false">
+        </service>
+        <service
+            android:name=".service.MyInstanceIDListenerService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.android.gms.iid.InstanceID"/>
+            </intent-filter>
+        </service>
+        <service
+            android:name=".service.RegistrationIntentService"
+            android:exported="false">
+        </service>
+
+    </application>
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <permission
+        android:name="com.seekting.demo2016.permission.C2D_MESSAGE"
+        android:protectionLevel="signature"/>
+
+    <uses-permission android:name="com.seekting.demo2016.permission.C2D_MESSAGE"/>
+    <uses-permission android:name="android.permission.DISABLE_KEYGUARD"/>
+    <uses-permission android:name="android.permission.CONTROL_KEYGUARD"/>
+
+</manifest>

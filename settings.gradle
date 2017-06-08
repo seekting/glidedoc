@@ -1,0 +1,6 @@
+include ':app'
+include ":external:libsum"
+include ":external:glide:third_party:disklrucache"
+include ":external:glide:third_party:gif_encoder"
+include ":external:glide:third_party:gif_decoder"
+include ":external:glide:library"
