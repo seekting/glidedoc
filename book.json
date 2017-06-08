@@ -19,14 +19,14 @@
   },
   "pdf": {
     "pageNumbers": true,
-    "fontSize": 10,
+    "fontSize": 8,
     "fontFamily": "Arial",
     "paperSize": "a4",
     "margin": {
       "right": 30,
       "left": 30,
-      "top": 30,
-      "bottom": 30
+      "top": 50,
+      "bottom": 50
     }
   }
 }
