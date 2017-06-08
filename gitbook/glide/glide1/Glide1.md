@@ -2,10 +2,10 @@
 # Glide1
 ## Glide.width(context)都做了些什么
 ```java
-   public static RequestManager with(Activity activity) {
-         RequestManagerRetriever retriever = RequestManagerRetriever.get();
-         return retriever.get(activity);
-     }
+public static RequestManager with(Activity activity) {
+     RequestManagerRetriever retriever = RequestManagerRetriever.get();
+     return retriever.get(activity);
+ }
 ```
 Retriever是猎犬的意思,我认为RequestManagerRetriever是享元模式，只要width()里的参数是同一个对象，它拿到的一定是同一个RequestManager。<br/>
 而它并不会去把RequestManager存在自己的成员当中,而是用了一个Fragment，存于FragmentManager当中，而此Fragment如果没有RequestManger，则会new一个RequestManager;<br/>
@@ -13,48 +13,48 @@ Retriever是猎犬的意思,我认为RequestManagerRetriever是享元模式，�
 
 ```java
 
-    @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
-    public RequestManager get(android.app.Fragment fragment) {
-        if (fragment.getActivity() == null) {
-            throw new IllegalArgumentException("You cannot start a load on a fragment before it is attached");
-        }
-        if (Util.isOnBackgroundThread() || Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN_MR1) {
-            return get(fragment.getActivity().getApplicationContext());
-        } else {
-            android.app.FragmentManager fm = fragment.getChildFragmentManager();
-            return fragmentGet(fragment.getActivity(), fm);
-        }
+@TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
+public RequestManager get(android.app.Fragment fragment) {
+    if (fragment.getActivity() == null) {
+        throw new IllegalArgumentException("You cannot start a load on a fragment before it is attached");
     }
+    if (Util.isOnBackgroundThread() || Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN_MR1) {
+        return get(fragment.getActivity().getApplicationContext());
+    } else {
+        android.app.FragmentManager fm = fragment.getChildFragmentManager();
+        return fragmentGet(fragment.getActivity(), fm);
+    }
+}
 
-    @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
-    RequestManagerFragment getRequestManagerFragment(final android.app.FragmentManager fm) {
-        RequestManagerFragment current = (RequestManagerFragment) fm.findFragmentByTag(FRAGMENT_TAG);
+@TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
+RequestManagerFragment getRequestManagerFragment(final android.app.FragmentManager fm) {
+    RequestManagerFragment current = (RequestManagerFragment) fm.findFragmentByTag(FRAGMENT_TAG);
+    if (current == null) {
+        current = pendingRequestManagerFragments.get(fm);
         if (current == null) {
-            current = pendingRequestManagerFragments.get(fm);
-            if (current == null) {
-                current = new RequestManagerFragment();
-                pendingRequestManagerFragments.put(fm, current);
-                fm.beginTransaction().add(current, FRAGMENT_TAG).commitAllowingStateLoss();
-                handler.obtainMessage(ID_REMOVE_FRAGMENT_MANAGER, fm).sendToTarget();
-            }
+            current = new RequestManagerFragment();
+            pendingRequestManagerFragments.put(fm, current);
+            fm.beginTransaction().add(current, FRAGMENT_TAG).commitAllowingStateLoss();
+            handler.obtainMessage(ID_REMOVE_FRAGMENT_MANAGER, fm).sendToTarget();
         }
-        return current;
     }
+    return current;
+}
 
 
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
-    RequestManager fragmentGet(Context context, android.app.FragmentManager fm) {
-        RequestManagerFragment current = getRequestManagerFragment(fm);
-        RequestManager requestManager = current.getRequestManager();
-        if (requestManager == null) {
-            Log.d("seekting", "RequestManagerRetriever.fragmentGet()重新创建requestManager");
-            requestManager = new RequestManager(context, current.getLifecycle(), current.getRequestManagerTreeNode());
-            current.setRequestManager(requestManager);
-        } else {
-            Log.d("seekting", "RequestManagerRetriever.fragmentGet()利用以前的requestManager");
-        }
-        return requestManager;
+@TargetApi(Build.VERSION_CODES.HONEYCOMB)
+RequestManager fragmentGet(Context context, android.app.FragmentManager fm) {
+    RequestManagerFragment current = getRequestManagerFragment(fm);
+    RequestManager requestManager = current.getRequestManager();
+    if (requestManager == null) {
+        Log.d("seekting", "RequestManagerRetriever.fragmentGet()重新创建requestManager");
+        requestManager = new RequestManager(context, current.getLifecycle(), current.getRequestManagerTreeNode());
+        current.setRequestManager(requestManager);
+    } else {
+        Log.d("seekting", "RequestManagerRetriever.fragmentGet()利用以前的requestManager");
     }
+    return requestManager;
+}
 ```
 >有一个小知识点，为什么会有一段这样的代码：
 
@@ -83,34 +83,34 @@ RequestManagerRetriever拿requestManager,requestManager有很多种:
 ## RequestManagerFragment的成员
 
 ```java
-    private final ActivityFragmentLifecycle lifecycle;//为了告诉RequestManager它的生命周期
-    private final RequestManagerTreeNode requestManagerTreeNode = new FragmentRequestManagerTreeNode();
-    private RequestManager requestManager;
-    private final HashSet<RequestManagerFragment> childRequestManagerFragments
-        = new HashSet<RequestManagerFragment>();
-    private RequestManagerFragment rootRequestManagerFragment;
+private final ActivityFragmentLifecycle lifecycle;//为了告诉RequestManager它的生命周期
+private final RequestManagerTreeNode requestManagerTreeNode = new FragmentRequestManagerTreeNode();
+private RequestManager requestManager;
+private final HashSet<RequestManagerFragment> childRequestManagerFragments
+    = new HashSet<RequestManagerFragment>();
+private RequestManagerFragment rootRequestManagerFragment;
 ```
 
 先看rootRequestManagerFragment,它是Activity的根节点
 ```java
- @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-        rootRequestManagerFragment = RequestManagerRetriever.get()
-                .getSupportRequestManagerFragment(getActivity().getSupportFragmentManager());
-        if (rootRequestManagerFragment != this) {
-            rootRequestManagerFragment.addChildRequestManagerFragment(this);
-        }
+@Override
+public void onAttach(Activity activity) {
+    super.onAttach(activity);
+    rootRequestManagerFragment = RequestManagerRetriever.get()
+            .getSupportRequestManagerFragment(getActivity().getSupportFragmentManager());
+    if (rootRequestManagerFragment != this) {
+        rootRequestManagerFragment.addChildRequestManagerFragment(this);
     }
+}
 
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        if (rootRequestManagerFragment != null) {
-            rootRequestManagerFragment.removeChildRequestManagerFragment(this);
-            rootRequestManagerFragment = null;
-        }
+@Override
+public void onDetach() {
+    super.onDetach();
+    if (rootRequestManagerFragment != null) {
+        rootRequestManagerFragment.removeChildRequestManagerFragment(this);
+        rootRequestManagerFragment = null;
     }
+}
 
 
 ```
@@ -122,26 +122,26 @@ childRequestManagerFragments和rootRequestManagerFragment用来做什么的呢�
 但是此方法Glide内部没有调用，是公开给接入者用的.
 ```java
 
-    /**
-     * Performs {@link #resumeRequests()} recursively for all managers that are contextually descendant
-     * to this manager based on the Activity/Fragment hierarchy. The hierarchical semantics are identical as for
-     * {@link #pauseRequestsRecursive()}.
-     */
-    public void resumeRequestsRecursive() {
+/**
+ * Performs {@link #resumeRequests()} recursively for all managers that are contextually descendant
+ * to this manager based on the Activity/Fragment hierarchy. The hierarchical semantics are identical as for
+ * {@link #pauseRequestsRecursive()}.
+ */
+public void resumeRequestsRecursive() {
+    Util.assertMainThread();
+    resumeRequests();
+    for (RequestManager requestManager : treeNode.getDescendants()) {
+        requestManager.resumeRequests();
+    }
+}
+
+public void pauseRequestsRecursive() {
         Util.assertMainThread();
-        resumeRequests();
+        pauseRequests();
         for (RequestManager requestManager : treeNode.getDescendants()) {
-            requestManager.resumeRequests();
+            requestManager.pauseRequests();
         }
     }
-
-    public void pauseRequestsRecursive() {
-            Util.assertMainThread();
-            pauseRequests();
-            for (RequestManager requestManager : treeNode.getDescendants()) {
-                requestManager.pauseRequests();
-            }
-        }
 
 ```
 
@@ -155,45 +155,45 @@ childRequestManagerFragments和rootRequestManagerFragment用来做什么的呢�
 #### getDescendantRequestManagerFragments方法有点问题
 
 ```java
-  /**
-     * Returns the set of fragments that this RequestManagerFragment's parent is a parent to. (i.e. our parent is
-     * the fragment that we are annotating).
-     */
-    public Set<SupportRequestManagerFragment> getDescendantRequestManagerFragments() {
-        if (rootRequestManagerFragment == null) {
-            return Collections.emptySet();
-        } else if (rootRequestManagerFragment == this) {
-            return Collections.unmodifiableSet(childRequestManagerFragments);
-        } else {
-            HashSet<SupportRequestManagerFragment> descendants =
-                new HashSet<SupportRequestManagerFragment>();
-            for (SupportRequestManagerFragment fragment
-                : rootRequestManagerFragment.getDescendantRequestManagerFragments()) {
-                if (isDescendant(fragment.getParentFragment())) { //此处为什么要传parent
-                    descendants.add(fragment);
-                }
+/**
+ * Returns the set of fragments that this RequestManagerFragment's parent is a parent to. (i.e. our parent is
+ * the fragment that we are annotating).
+ */
+public Set<SupportRequestManagerFragment> getDescendantRequestManagerFragments() {
+    if (rootRequestManagerFragment == null) {
+        return Collections.emptySet();
+    } else if (rootRequestManagerFragment == this) {
+        return Collections.unmodifiableSet(childRequestManagerFragments);
+    } else {
+        HashSet<SupportRequestManagerFragment> descendants =
+            new HashSet<SupportRequestManagerFragment>();
+        for (SupportRequestManagerFragment fragment
+            : rootRequestManagerFragment.getDescendantRequestManagerFragments()) {
+            if (isDescendant(fragment.getParentFragment())) { //此处为什么要传parent
+                descendants.add(fragment);
             }
-            return Collections.unmodifiableSet(descendants);
         }
+        return Collections.unmodifiableSet(descendants);
     }
+}
 ```
 
 
 ```java
 
-    /**
-     * Returns true if the fragment is a descendant of our parent.
-     */
-    private boolean isDescendant(Fragment fragment) {
-        Fragment root = this.getParentFragment();
-        while (fragment.getParentFragment() != null) {
-            if (fragment.getParentFragment() == root) {
-                return true;
-            }
-            fragment = fragment.getParentFragment();
+/**
+ * Returns true if the fragment is a descendant of our parent.
+ */
+private boolean isDescendant(Fragment fragment) {
+    Fragment root = this.getParentFragment();
+    while (fragment.getParentFragment() != null) {
+        if (fragment.getParentFragment() == root) {
+            return true;
         }
-        return false;
+        fragment = fragment.getParentFragment();
     }
+    return false;
+}
 ```
 
 >此api明明是想把和自己父亲是同一个祖先的孩子都加到列表里来，但是为什么要加getParent,也就是说任何一个fragment,它的爷爷(或爷爷以上级别)和this的父亲相同，就该加进set;
