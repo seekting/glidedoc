@@ -1,5 +1,4 @@
-# Glide3
-## ModelLoader
+# Glide ModelLoader
 
 
 Glide 初始化的时候会初始化GenericLoaderFactory,然后会注册一系列的工厂

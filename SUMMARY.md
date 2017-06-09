@@ -1,10 +1,11 @@
 # Summary
 
-* [glide1](gitbook/glide/glide1/Glide1.md)
-* [glide2](gitbook/glide/glide2/Glide2.md)
-* [glide3](gitbook/glide/glide3/Glide3.md)
-* [glide4](gitbook/glide/glide4/Glide4.md)
-* [glide5](gitbook/glide/glide5/Glide5.md)
-* [glide6](gitbook/glide/glide6/Glide6.md)
-* [glide7](gitbook/glide/glide7/Glide7.md)
+* [Glide RequestManagerFragment](gitbook/glide/glide1/Glide1.md)
+* [Glide RequestTracker](gitbook/glide/glide2/Glide2.md)
+* [Glide ModelLoader](gitbook/glide/glide3/Glide3.md)
+* [Glide RequestBuilder](gitbook/glide/glide4/Glide4.md)
+* [Glide into()都做了什么](gitbook/glide/glide5/Glide5.md)
+* [Glide 请求结果之Resource处理](gitbook/glide/glide6/Glide6.md)
+* [Glide 巧用EngineResource实现内存缓存](gitbook/glide/glide7/Glide7.md)
+* [Glide Signature](gitbook/glide/glide8/Glide8.md)
 

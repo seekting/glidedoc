@@ -1,5 +1,4 @@
-# Glide2
-## RequestTracker
+# Glide RequestTracker
 官方给的解释： * A class for tracking, canceling, and restarting in progress, completed, and failed requests.
 它是跟踪请求过程的一个类，好吧，看了代码我无语了，这哪叫跟踪？明明是控制，它就是控制request的一些行为的类，要我启名就启requsetControler
 可以看代码：

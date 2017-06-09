@@ -1,5 +1,4 @@
-
-# Glide1
+#　Glide RequestManagerFragment
 ## Glide.width(context)都做了些什么
 ```java
 public static RequestManager with(Activity activity) {
