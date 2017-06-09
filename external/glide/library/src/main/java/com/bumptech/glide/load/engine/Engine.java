@@ -151,7 +151,6 @@ public class Engine implements EngineJobListener,
                 transcoder, loadProvider.getSourceEncoder());
 
         EngineResource<?> cached = loadFromCache(key, isMemoryCacheable);
-        Log.d("seekting","Engine.load()cached="+cached);
         if (cached != null) {
             cb.onResourceReady(cached);
             if (Log.isLoggable(TAG, Log.VERBOSE)) {
@@ -161,7 +160,6 @@ public class Engine implements EngineJobListener,
         }
 
         EngineResource<?> active = loadFromActiveResources(key, isMemoryCacheable);
-        Log.d("seekting","Engine.load()active="+active);
         if (active != null) {
             cb.onResourceReady(active);
             if (Log.isLoggable(TAG, Log.VERBOSE)) {
