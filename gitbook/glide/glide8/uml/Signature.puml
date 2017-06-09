@@ -1,0 +1,29 @@
+@startuml
+ interface Key {
+    String STRING_CHARSET_NAME = "UTF-8";
+    void updateDiskCacheKey(MessageDigest messageDigest)
+    boolean equals(Object o);
+    int hashCode();
+}
+
+'UniqueKey in BitmapPreFillRunner (com.bumptech.glide.load.engine.prefill)
+'MediaStoreSignature (com.bumptech.glide.signature)
+'StringSignature (com.bumptech.glide.signature)
+'OriginalKey (com.bumptech.glide.load.engine)
+'EngineKey (com.bumptech.glide.load.engine)
+'FrameSignature in GifFrameLoader (com.bumptech.glide.load.resource.gif)
+'EmptySignature (com.bumptech.glide.signature)
+
+
+class StringSignature{
+String signature
+}
+Key <|.. StringSignature
+Key <|.. OriginalKey
+Key <|.. EmptySignature
+Key <|.. EngineKey
+Key <|.. MediaStoreSignature
+Key <|.. FrameSignature
+Key <|.. UniqueKey
+
+@enduml

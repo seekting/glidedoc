@@ -86,5 +86,6 @@
     <uses-permission android:name="com.seekting.demo2016.permission.C2D_MESSAGE"/>
     <uses-permission android:name="android.permission.DISABLE_KEYGUARD"/>
     <uses-permission android:name="android.permission.CONTROL_KEYGUARD"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
 
 </manifest>
