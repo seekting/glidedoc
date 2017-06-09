@@ -1,6 +1,6 @@
-#Glide8之Signature
+# Glide 之Signature
 
-每一个请求，都有一个唯一标识，内存缓存和持久化通过这个唯一标识来区分该请求是否可以使用缓存数据。<br/>
+每一个请求，都有一个唯一标识，内存缓存和持久化通过这个唯一标识来区分该请求是否命中使用缓存数据。<br/>
 所以Glide通过Signature来实现这个唯一标识，也就是接口Key.
 以下是Key的家谱
 
@@ -24,7 +24,7 @@ public <T, Z, R> LoadStatus load( //...ignore code
 
 ## 为什么它不用原有的signature而要重新包装一个EngineKey
 
-原因是：通过EngineKey我们能知道这个请求都详细细节，从而判断要不要用对应的缓存目的是用在内存缓存上
+原因是：通过EngineKey我们能知道这个请求的详细细节，从而判断要不要用对应的缓存。目的是用在内存缓存上
 
 如：width,height,cacheDecoder,decoder,transformation等；
 Glide对缓存做了精准投放，哪怕是同一张图，request所要的宽度不一样，它都不会命中。
@@ -123,7 +123,7 @@ DiskLruCacheWrapper.java:
 
 来看看safeKey的源码:
 
-先通过loadIdToSafeHash(LruCache)来做内存缓存，如果缓存没有，就通过SHA-256的方式求出一个Hex值当做key，用点像是md5的做法
+先通过loadIdToSafeHash(LruCache)来做内存缓存，如果缓存没有，就通过SHA-256的方式求出一个Hex值当做key，有点像是md5的做法
 ```java
 
 public String getSafeKey(Key key) {
