@@ -77,6 +77,10 @@
             android:exported="false">
         </service>
 
+        <meta-data
+            android:name="com.seekting.demo2016.MyGlideModule"
+            android:value="GlideModule"
+            />
     </application>
     <uses-permission android:name="android.permission.INTERNET"/>
     <permission

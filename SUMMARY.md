@@ -8,4 +8,5 @@
 * [Glide 请求结果之Resource处理](gitbook/glide/glide6/Glide6.md)
 * [Glide 巧用EngineResource实现内存缓存](gitbook/glide/glide7/Glide7.md)
 * [Glide Signature](gitbook/glide/glide8/Glide8.md)
+* [Glide GlideModule个性化Glide](gitbook/glide/glide9/Glide9.md)
 
