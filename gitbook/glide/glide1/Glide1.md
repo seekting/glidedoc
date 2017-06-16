@@ -15,7 +15,7 @@ Retriever是猎犬的意思,我认为RequestManagerRetriever是享元模式，�
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
 public RequestManager get(android.app.Fragment fragment) {
     if (fragment.getActivity() == null) {
-        throw new IllegalArgumentException("You cannot start a load on a fragment before it is attached");
+        throw new IllegalArgumentException("You cannot start a load on a fragment..");
     }
     if (Util.isOnBackgroundThread() || Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN_MR1) {
         return get(fragment.getActivity().getApplicationContext());
@@ -46,11 +46,11 @@ RequestManager fragmentGet(Context context, android.app.FragmentManager fm) {
     RequestManagerFragment current = getRequestManagerFragment(fm);
     RequestManager requestManager = current.getRequestManager();
     if (requestManager == null) {
-        Log.d("seekting", "RequestManagerRetriever.fragmentGet()重新创建requestManager");
-        requestManager = new RequestManager(context, current.getLifecycle(), current.getRequestManagerTreeNode());
+        Log.d("seekting", "RequestManagerRetriever.重新创建requestManager");
+        requestManager = new RequestManager(context, current.getLifecycle(),//...ignore code
         current.setRequestManager(requestManager);
     } else {
-        Log.d("seekting", "RequestManagerRetriever.fragmentGet()利用以前的requestManager");
+        Log.d("seekting", "RequestManagerRetriever.利用以前的requestManager");
     }
     return requestManager;
 }
@@ -121,11 +121,6 @@ childRequestManagerFragments和rootRequestManagerFragment用来做什么的呢�
 但是此方法Glide内部没有调用，是公开给接入者用的.
 ```java
 
-/**
- * Performs {@link #resumeRequests()} recursively for all managers that are contextually descendant
- * to this manager based on the Activity/Fragment hierarchy. The hierarchical semantics are identical as for
- * {@link #pauseRequestsRecursive()}.
- */
 public void resumeRequestsRecursive() {
     Util.assertMainThread();
     resumeRequests();

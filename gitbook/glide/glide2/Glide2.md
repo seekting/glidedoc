@@ -38,7 +38,8 @@
   public void resumeRequests() {
          isPaused = false;
          for (Request request : Util.getSnapshot(requests)) {
-             if (!request.isComplete() && !request.isCancelled() && !request.isRunning()) {
+             if (!request.isComplete() && !request.isCancelled()
+                  && !request.isRunning()) {
                  request.begin();
              }
          }
@@ -54,9 +55,9 @@ fragment把生命周期转给了RequestManager，然后RequestManger会通过Req
 
 首先看tracker的成员：
 ```java
-  private final Set<Request> requests = Collections.newSetFromMap(new WeakHashMap<Request, Boolean>());
-  private final List<Request> pendingRequests = new ArrayList<Request>();
-  private boolean isPaused;
+private final Set<Request> requests = Collections.newSetFromMap(new WeakHashMap<Request, Boolean>());
+private final List<Request> pendingRequests = new ArrayList<Request>();
+private boolean isPaused;
   ```
 
 通过requests来记录该Fragment(或是Acitvity)所有的request;<br/>

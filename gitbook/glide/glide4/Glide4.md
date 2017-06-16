@@ -21,24 +21,24 @@ DataLoadProvider:一个拥有图片读取和存储实现的提供者，通过它
 
 Glide 构造函数：
 ```java 
-  dataLoadProviderRegistry.register(InputStream.class, Bitmap.class, streamBitmapLoadProvider);
+dataLoadProviderRegistry.register(InputStream.class, Bitmap.class, streamBitmapLoadProvider);
 
-        FileDescriptorBitmapDataLoadProvider fileDescriptorLoadProvider =
-                new FileDescriptorBitmapDataLoadProvider(bitmapPool, decodeFormat);
-        dataLoadProviderRegistry.register(ParcelFileDescriptor.class, Bitmap.class, fileDescriptorLoadProvider);
+FileDescriptorBitmapDataLoadProvider fileDescriptorLoadProvider =
+ new FileDescriptorBitmapDataLoadProvider(bitmapPool, decodeFormat);
+dataLoadProviderRegistry.register(ParcelFileDescriptor.class, Bitmap.class, fileDescriptorLoadProvider);
 
-        ImageVideoDataLoadProvider imageVideoDataLoadProvider =
-                new ImageVideoDataLoadProvider(streamBitmapLoadProvider, fileDescriptorLoadProvider);
-        dataLoadProviderRegistry.register(ImageVideoWrapper.class, Bitmap.class, imageVideoDataLoadProvider);
+ImageVideoDataLoadProvider imageVideoDataLoadProvider =
+ new ImageVideoDataLoadProvider(streamBitmapLoadProvider, fileDescriptorLoadProvider);
+dataLoadProviderRegistry.register(ImageVideoWrapper.class, Bitmap.class, imageVideoDataLoadProvider);
 
-        GifDrawableLoadProvider gifDrawableLoadProvider =
-                new GifDrawableLoadProvider(context, bitmapPool);
-        dataLoadProviderRegistry.register(InputStream.class, GifDrawable.class, gifDrawableLoadProvider);
+GifDrawableLoadProvider gifDrawableLoadProvider =
+ new GifDrawableLoadProvider(context, bitmapPool);
+dataLoadProviderRegistry.register(InputStream.class, GifDrawable.class, gifDrawableLoadProvider);
 
-        dataLoadProviderRegistry.register(ImageVideoWrapper.class, GifBitmapWrapper.class,
-                new ImageVideoGifDrawableLoadProvider(imageVideoDataLoadProvider, gifDrawableLoadProvider, bitmapPool));
+dataLoadProviderRegistry.register(ImageVideoWrapper.class, GifBitmapWrapper.class,
+ new ImageVideoGifDrawableLoadProvider(imageVideoDataLoadProvider, gifDrawableLoadProvider, bitmapPool));
 
-        dataLoadProviderRegistry.register(InputStream.class, File.class, new StreamFileDataLoadProvider());
+dataLoadProviderRegistry.register(InputStream.class, File.class, new StreamFileDataLoadProvider());
 
 ```
 
@@ -61,10 +61,7 @@ BitmapEncoder.java的encode方法
         long start = LogTime.getLogTime();
         Bitmap.CompressFormat format = getFormat(bitmap);
         bitmap.compress(format, quality, os);
-        if (Log.isLoggable(TAG, Log.VERBOSE)) {
-            Log.v(TAG, "Compressed with type: " + format + " of size " + Util.getBitmapByteSize(bitmap) + " in "
-                    + LogTime.getElapsedMillis(start));
-        }
+        //...ignore code
         return true;
     }
 ```
@@ -88,23 +85,17 @@ Downsampler.java
 ```java
 
  @Override
-    public Bitmap decode(InputStream is, BitmapPool pool, int outWidth, int outHeight, DecodeFormat decodeFormat) {
+    public Bitmap decode(InputStream is, BitmapPool pool, int outWidth,
+                            int outHeight, DecodeFormat decodeFormat) {
         final ByteArrayPool byteArrayPool = ByteArrayPool.get();
         final byte[] bytesForOptions = byteArrayPool.getBytes();
         final byte[] bytesForStream = byteArrayPool.getBytes();
         final BitmapFactory.Options options = getDefaultOptions();
 
-        // Use to fix the mark limit to avoid allocating buffers that fit entire images.
         RecyclableBufferedInputStream bufferedStream = new RecyclableBufferedInputStream(
                 is, bytesForStream);
-        // Use to retrieve exceptions thrown while reading.
-        // TODO(#126): when the framework no longer returns partially decoded Bitmaps or provides a way to determine
-        // if a Bitmap is partially decoded, consider removing.
         ExceptionCatchingInputStream exceptionStream =
                 ExceptionCatchingInputStream.obtain(bufferedStream);
-        // Use to read data.
-        // Ensures that we can always reset after reading an image header so that we can still attempt to decode the
-        // full image even when the header decode fails and/or overflows our read buffer. See #283.
         MarkEnforcingInputStream invalidatingStream = new MarkEnforcingInputStream(exceptionStream);
         try {
             exceptionStream.mark(MARK_POSITION);
@@ -132,15 +123,13 @@ Downsampler.java
             final int inHeight = inDimens[1];
 
             final int degreesToRotate = TransformationUtils.getExifOrientationDegrees(orientation);
-            final int sampleSize = getRoundedSampleSize(degreesToRotate, inWidth, inHeight, outWidth, outHeight);
+            final int sampleSize = getRoundedSampleSize(degreesToRotate,
+                                    inWidth, inHeight, outWidth, outHeight);
 
             final Bitmap downsampled =
-                    downsampleWithSize(invalidatingStream, bufferedStream, options, pool, inWidth, inHeight, sampleSize,
-                            decodeFormat);
+                    downsampleWithSize(invalidatingStream, bufferedStream, options, pool, inWidth,
+                    inHeight, sampleSize,decodeFormat);
 
-            // BitmapFactory swallows exceptions during decodes and in some cases when inBitmap is non null, may catch
-            // and log a stack trace but still return a non null bitmap. To avoid displaying partially decoded bitmaps,
-            // we catch exceptions reading from the stream in our ExceptionCatchingInputStream and throw them here.
             final Exception streamException = exceptionStream.getException();
             if (streamException != null) {
                 throw new RuntimeException(streamException);
@@ -167,19 +156,12 @@ Downsampler.java
 
 
 ```java
-   private static Bitmap decodeStream(MarkEnforcingInputStream is, RecyclableBufferedInputStream bufferedStream,
+   private static Bitmap decodeStream(MarkEnforcingInputStream is,
+                                        RecyclableBufferedInputStream bufferedStream,
             BitmapFactory.Options options) {
          if (options.inJustDecodeBounds) {
-             // This is large, but jpeg headers are not size bounded so we need something large enough to minimize
-             // the possibility of not being able to fit enough of the header in the buffer to get the image size so
-             // that we don't fail to load images. The BufferedInputStream will create a new buffer of 2x the
-             // original size each time we use up the buffer space without passing the mark so this is a maximum
-             // bound on the buffer size, not a default. Most of the time we won't go past our pre-allocated 16kb.
              is.mark(MARK_POSITION);
          } else {
-             // Once we've read the image header, we no longer need to allow the buffer to expand in size. To avoid
-             // unnecessary allocations reading image data, we fix the mark limit so that it is no larger than our
-             // current buffer size here. See issue #225.
              bufferedStream.fixMarkLimit();
          }
 
@@ -190,10 +172,7 @@ Downsampler.java
                 is.reset();
             }
         } catch (IOException e) {
-            if (Log.isLoggable(TAG, Log.ERROR)) {
-                Log.e(TAG, "Exception loading inDecodeBounds=" + options.inJustDecodeBounds
-                        + " sample=" + options.inSampleSize, e);
-            }
+            //...ignore code
         }
 
         return result;
