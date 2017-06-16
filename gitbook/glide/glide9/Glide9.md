@@ -1,6 +1,6 @@
 # Glide GlideModule个性化Glide
 
-Glide可以通过GlideModule去个性化它的一些属性，它的做法值得学习。<br/>
+Glide可以通过GlideModule去个性化它的一些属性。<br/>
 我们写SDK的时候，通常是在sdk初始化的时候（Application.onCreate的时候）传参数进去完成;而Glide与众不同的是，通过meta-data指定一个类，操作builder从而达到目的。
 这样做的好处是，你不知道Glide对象在何时需要初始化，但是只要初始化的时候，就一定会通过配置好的GlideModule对象去个性化Glide
 
@@ -78,6 +78,8 @@ private static GlideModule parseModule(String className) {
     }
 
 ```
+
+另外，Glide还可以
 
 > 从Glide的实例化之前和之后都可以注入一些个性化的东西，实例化前可以个性化bitmapPool,MemoryCache等等；实例化后可以通过register注册loader。
 > 这个思想值得学习。

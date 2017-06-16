@@ -92,7 +92,21 @@
                 android:layout_height="wrap_content"
                 android:text="load Content provider"/>
         </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/linear_height">
 
+            <ImageView
+                android:id="@+id/imageview6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <Button
+                android:id="@+id/button6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="load Content provider"/>
+        </LinearLayout>
     </LinearLayout>
 
 </ScrollView>

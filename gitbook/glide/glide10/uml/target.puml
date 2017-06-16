@@ -1,0 +1,74 @@
+@startuml
+
+skinparam titleBorderRoundCorner 15
+skinparam titleBorderThickness 2
+skinparam titleBorderColor red
+skinparam titleBackgroundColor Aqua-CadetBlue
+title Target类图
+ interface Target{
+
+    void onLoadStarted(Drawable placeholder);
+
+    void onLoadFailed(Exception e, Drawable errorDrawable);
+
+
+    void onResourceReady(R resource, GlideAnimation<? super R> glideAnimation);
+
+
+    void onLoadCleared(Drawable placeholder);
+
+
+    void getSize(SizeReadyCallback cb);
+
+
+    void setRequest(Request request);
+
+
+    Request getRequest();
+}
+
+interface LifecycleListener{
+    void onStart();
+    void onStop();
+    void onDestroy();
+}
+
+class BaseTarget{
+对接口的一些空实现
+}
+class ViewTarget{
+主要对getSize做了实现
+}
+LifecycleListener<|--Target
+Target <|..BaseTarget
+Target <|..FutureTarget
+
+BaseTarget<|--ViewTarget
+BaseTarget <|-- SimpleTarget
+
+
+ViewTarget<|--ImageViewTarget
+ViewTarget<|--ClearTarget
+ViewTarget<|--SizeViewTarget
+
+ImageViewTarget<|--GlideDrawableImageViewTarget
+ImageViewTarget<|--BitmapImageViewTarget
+ImageViewTarget<|--DrawableImageViewTarget
+
+
+
+
+SimpleTarget <|-- AppWidgetTarget
+SimpleTarget <|--PreloadTarget
+SimpleTarget <|-- NotificationTarget
+SimpleTarget <|-- DelayTarget
+SimpleTarget <|-- DelayTarget
+
+
+FutureTarget <|-- RequestFutureTarget
+
+
+
+
+
+@enduml
