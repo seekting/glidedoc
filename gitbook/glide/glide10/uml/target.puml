@@ -32,19 +32,35 @@ interface LifecycleListener{
     void onStop();
     void onDestroy();
 }
-
-class BaseTarget{
-对接口的一些空实现
+interface Request{
 }
+class BaseTarget{
+//对接口的一些空实现
+- Request request;
+
+}
+BaseTarget o-- Request
+
 class ViewTarget{
 主要对getSize做了实现
 }
-LifecycleListener<|--Target
-Target <|..BaseTarget
-Target <|..FutureTarget
 
+LifecycleListener<|--Target
+Target <|--FutureTarget
+Target <|..BaseTarget
+Future <|-- FutureTarget
+interface FutureTarget{
+//清空方法
+void clear();
+}
 BaseTarget<|--ViewTarget
 BaseTarget <|-- SimpleTarget
+
+class SimpleTarget{
+ - int width;
+   -int height;
+    void getSize();
+}
 
 
 ViewTarget<|--ImageViewTarget
