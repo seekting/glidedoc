@@ -1,0 +1,22 @@
+@startuml
+'start
+':View.onSizeReady;
+':Engine.load;
+'if (Engine.loadFromCache==null) then(true)
+'    if(Engine.loadFromActiveResources==null) then(true)
+'        :EngineJob.start;
+'        if(disk缓存存在?) then(true)
+'            :加载disk缓存;
+'         else(false)
+'               if(联网成功) then(true)
+'                else(false)
+'                    :使用缓存;
+'                endif
+'         endif
+'    else(false)
+'    endif
+'else(false)
+'endif
+':显示图片;
+
+@enduml

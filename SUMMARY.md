@@ -10,4 +10,5 @@
 * [第八章 Glide Signature](gitbook/glide/glide8/Glide8.md)
 * [第九章 Glide GlideModule个性化Glide](gitbook/glide/glide9/Glide9.md)
 * [第十章 Glide Target详解](gitbook/glide/glide10/Glide10.md)
+* [第十一章 Glide Cancel机制](gitbook/glide/glide11/Glide11.md)
 
