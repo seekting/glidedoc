@@ -56,6 +56,7 @@ public class GlideActivity extends FragmentActivity {
     public static final boolean DEBUG = AppEnv.bAppdebug;
     public static final String TAG = "GlideActivity";
     private static final String URL = "http://img.blog.csdn.net/20140621112749546?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvbGlmZXNob3c=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center";
+//    private static final String URL = "http://192.168.1.108:8080/img/20170803162540603.jpg";
     private ImageView mImageView1;
     private ImageView mImageView2;
     private ImageView mImageView3, mImageView4, mImageView5, mImageView6;
