@@ -29,6 +29,7 @@ import com.bumptech.glide.DrawableTypeRequest;
 import com.bumptech.glide.GenericRequestBuilder;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestManager;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.drawable.GlideDrawable;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
@@ -62,9 +63,17 @@ public class GlideActivity extends FragmentActivity {
     private ImageView mImageView3, mImageView4, mImageView5, mImageView6;
     private Button mButton1, mButton2, mButton3, mButton4, mButton5, mButton6;
 
+    class MyOption implements RequestManager.DefaultOptions{
+
+        @Override
+        public <T> void apply(GenericRequestBuilder<T, ?, ?, ?> requestBuilder) {
+            requestBuilder.diskCacheStrategy(DiskCacheStrategy.ALL);
+        }
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Glide.with(this).setDefaultOptions(new MyOption());
         setContentView(R.layout.glide_layout);
         mImageView1 = (ImageView) findViewById(R.id.imageview1);
         mImageView2 = (ImageView) findViewById(R.id.imageview2);
