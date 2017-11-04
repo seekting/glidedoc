@@ -92,6 +92,7 @@
                 android:layout_height="wrap_content"
                 android:text="load Content provider"/>
         </LinearLayout>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="@dimen/linear_height">
@@ -106,6 +107,24 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="load Content provider"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <Button
+                android:id="@+id/button7"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="重复加载的时候target怎么走"/>
+            <ImageView
+
+                android:id="@+id/imageview7"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/linear_height"/>
+
+
         </LinearLayout>
     </LinearLayout>
 

@@ -57,19 +57,20 @@ public class GlideActivity extends FragmentActivity {
     public static final boolean DEBUG = AppEnv.bAppdebug;
     public static final String TAG = "GlideActivity";
     private static final String URL = "http://img.blog.csdn.net/20140621112749546?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvbGlmZXNob3c=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center";
-//    private static final String URL = "http://192.168.1.108:8080/img/20170803162540603.jpg";
+    //    private static final String URL = "http://192.168.1.108:8080/img/20170803162540603.jpg";
     private ImageView mImageView1;
     private ImageView mImageView2;
-    private ImageView mImageView3, mImageView4, mImageView5, mImageView6;
-    private Button mButton1, mButton2, mButton3, mButton4, mButton5, mButton6;
+    private ImageView mImageView3, mImageView4, mImageView5, mImageView6, mImageView7;
+    private Button mButton1, mButton2, mButton3, mButton4, mButton5, mButton6, mButton7;
 
-    class MyOption implements RequestManager.DefaultOptions{
+    class MyOption implements RequestManager.DefaultOptions {
 
         @Override
         public <T> void apply(GenericRequestBuilder<T, ?, ?, ?> requestBuilder) {
             requestBuilder.diskCacheStrategy(DiskCacheStrategy.ALL);
         }
     }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -81,12 +82,14 @@ public class GlideActivity extends FragmentActivity {
         mImageView4 = (ImageView) findViewById(R.id.imageview4);
         mImageView5 = (ImageView) findViewById(R.id.imageview5);
         mImageView6 = (ImageView) findViewById(R.id.imageview6);
+        mImageView7 = (ImageView) findViewById(R.id.imageview7);
         mButton1 = (Button) findViewById(R.id.button1);
         mButton2 = (Button) findViewById(R.id.button2);
         mButton3 = (Button) findViewById(R.id.button3);
         mButton4 = (Button) findViewById(R.id.button4);
         mButton5 = (Button) findViewById(R.id.button5);
         mButton6 = (Button) findViewById(R.id.button6);
+        mButton7 = (Button) findViewById(R.id.button7);
         Context app = getApplicationContext();
         if (DEBUG) {
             Log.d(TAG, "onCreate.app=" + app + "app instanceof ContextWrapper=" + (app instanceof ContextWrapper));
@@ -189,6 +192,20 @@ public class GlideActivity extends FragmentActivity {
                 DrawableTypeRequest<String> builder = requestManager.load(URL);
                 builder.into(simpleTarget);
 
+            }
+        });
+        String str = "http://192.168.31.163/http/img/15H743-030.JPG";
+        String str1 = "http://192.168.31.163/http/img/15H743-0301.JPG";
+
+        final String[] strings = new String[]{str, str1};
+        mButton7.setOnClickListener(new View.OnClickListener() {
+            int i = 0;
+
+            @Override
+            public void onClick(View v) {
+
+                requestManager.load(strings[i % strings.length]).into(mImageView7);
+                i++;
             }
         });
 
