@@ -224,10 +224,10 @@ private static void check(String name, Object object, String suggestion) {
 
 然后通过OnSizeReady去启动引擎，对启动引擎的逻辑不熟悉的可以参考 
 
-![target](/target.png) 
+![target](target.png) 
 
 
 
-[Glide into()都做了什么](./glide5/Glide5.md) 
+[Glide into()都做了什么](../glide5/Glide5.md) 
 
  
