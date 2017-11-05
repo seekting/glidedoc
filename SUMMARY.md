@@ -13,4 +13,6 @@
 * [11 Glide Disk缓存策略](gitbook/glide/glide11/content.md)
     * [11.1 使用编](gitbook/glide/glide11/content.md)
     * [11.2 原理编](gitbook/glide/glide11/content1.md)
+* [12 Glide Cancel机制](gitbook/glide/glide12/InListView.md)
+    * [12.1 初步探究](gitbook/glide/glide12/InListView.md)
 
