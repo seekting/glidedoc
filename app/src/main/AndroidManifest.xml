@@ -26,6 +26,7 @@
             android:name=".activity.JbTestBase"
             android:exported="true"/>
 
+        <activity android:name=".activity.VideoGlideActivity"/>
         <activity android:name=".activity.CircleViewActivity"/>
         <activity android:name=".activity.InstantAppActivity"/>
         <activity android:name=".activity.GlideActivity"/>
