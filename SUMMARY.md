@@ -15,4 +15,5 @@
     * [11.2 原理编](gitbook/glide/glide11/content1.md)
 * [12 Glide Cancel机制](gitbook/glide/glide12/InListView.md)
     * [12.1 初步探究](gitbook/glide/glide12/InListView.md)
+* [13 Glide 显示视频缩略图及遇到的坑](gitbook/glide/Glide13/content.md)
 
